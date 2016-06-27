@@ -5,10 +5,13 @@
 #include <cstdio>
 #include<conio.h>
 #include <ctime>
+
 using namespace std;
+
 int x=3,y=3;
 char mat[50][50];
 int score=0;
+
 int insertRandomPrizes(){
     int prizex=rand()%48+2;
     int prizey=rand()%19+2;
@@ -16,14 +19,14 @@ int insertRandomPrizes(){
 }
 char colors[]="ABCDEFGHIJ";
 void changeCollor(){
-    char cs[]="color  ";
-    cs[6]=colors[score%5];
-    system(cs);
+    char colorCommand[]="color  ";
+    colorCommand[6]=colors[score%5];
+    system(colorCommand);
 }
-void changeCollor2(){
-    char cs[]="color  ";
-    cs[6]=colors[rand()%5];
-    system(cs);
+void changeCollorPostEnding(){
+    char colorCommand[]="color  ";
+    colorCommand[6]=colors[rand()%5];
+    system(colorCommand);
 }
 void printScreen(){
     system("cls");
@@ -53,9 +56,9 @@ void printScreen(){
     cout<<"Score: "<<score<<" stars\n";
 }
 void readMap(){
-    ifstream f("input.in");
+    ifstream mapInput("input.in");
     for(int i=0;i<50;i++){
-        f.getline(mat[i],51);
+        f.mapInput(mat[i],51);
 
     }
 }
@@ -75,16 +78,20 @@ void moveRight(){
     if(mat[y][x+1]!='1')
         x++;
 }
-int main()
-{srand(time(NULL));
-    char command;
+
+int main(){
+    //for random goal generation
+    srand(time(NULL));
     readMap();
-    for(int i=0;i<14;i++)
+    const int goal=14;
+    for(int i=0;i<goal;i++)
         insertRandomPrizes();
-    int win=1;
-    while(win){
-        if(score==13)
-            win=0;
+    
+    //Main game loop for one game
+    bool keepPlaying=true;
+    while(keepPlaying){
+        if(score>=goal)
+            keepPlaying=false;
         printScreen();
         switch(getch()){
             case 65:
@@ -112,13 +119,13 @@ int main()
                 moveLeft();
                 break;
             case '0':
-                cout<<"Ce las esti";
+                cout<<":(";
                 return 0;
 
         }
 
-    }while(1){
-        changeCollor2();
+    }while(true){
+        changeCollorPostEnding();
         cout<<"*************************\n";
         cout<<"**********WINNER*********\n";
         cout<<"*************************\n";
